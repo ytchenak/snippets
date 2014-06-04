@@ -65,7 +65,7 @@ function Graph () {
 	
 		var vEdges = this.edges1[v];
 		if( vEdges == undefined) {
-			// return;
+			return;
 		}
 
 		vEdges.forEach( function(e) {
