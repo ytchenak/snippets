@@ -2,9 +2,9 @@
 
 //JSON.stringify(g)
 
-process.on('uncaughtException', function(err) {
-    console.log(err);
-});
+// process.on('uncaughtException', function(err) {
+//     console.log(err);
+// });
 
 function Vertex (data) {
 	this.data = data;
@@ -24,8 +24,9 @@ Edge.prototype.toString = function() {
 		return this.source + '=>' + this.target;
 };
 
-
+//---------------------------------------------
 //unidirected graph
+
 function Graph () {
 	this.edges = {};
 }
@@ -64,6 +65,7 @@ Graph.prototype.dfs = function(v, result) {
 	this.dfsRecursive(v, discovered, result);
 	return result;
 }
+
 Graph.prototype.dfsRecursive = function(v, discovered, result) {
 	var _this = this;
 	discovered[v] = true;
@@ -80,6 +82,7 @@ Graph.prototype.dfsRecursive = function(v, discovered, result) {
 	}
 	result.unshift(v) //reverse post order
 }
+
 Graph.prototype.bfs = function(v) {
 	var _this = this;
 	var discovered = {}; //hash
@@ -102,6 +105,7 @@ Graph.prototype.bfs = function(v) {
 	}
 }
 
+//==================================================
 
 var v1 = new Vertex('1');
 var v2 = new Vertex('2');
