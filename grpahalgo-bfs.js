@@ -34,7 +34,6 @@ GraphAlgo.prototype.bfs = function(rootId, result, discovered) {
 			});
 			console.log(' stack: ' + stack);
 		}
-
 	}
 
 }
