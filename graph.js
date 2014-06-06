@@ -1,134 +1,66 @@
+'use strict';
+module.exports.Vertex = Vertex;
+module.exports.Edge = Edge;
+module.exports.Graph = Graph;
 
-
-//JSON.stringify(g)
-
-// process.on('uncaughtException', function(err) {
-//     console.log(err);
-// });
-
-function Vertex (data) {
+//------------------------------------------------------
+//graph vertex. id is unique identificator of the vertex. 
+function Vertex (id, data) {
+	this.id = id;
 	this.data = data;
 }
 Vertex.prototype.toString = function() {
-		return this.data;
+		return this.id;
 };
 
 //--------------------------------------------
-
-function Edge (source, target) {
-	this.source = source;
-	this.target = target;
+// graph edge - connects two vertex and can has own data
+function Edge (sourceId, targetId, data) {
+	this.sourceId = sourceId;
+	this.targetId = targetId;
+	this.data = data;
 }
-
 Edge.prototype.toString = function() {
-		return this.source + '=>' + this.target;
+		return this.sourceId + '=>' + this.targetId;
 };
 
 //---------------------------------------------
 //unidirected graph
-
 function Graph () {
-	this.edges = {};
+	this.vertices = {} 
+	this.outgoingEdges = {};
 }
 
-Graph.prototype.addVertex = function(v) {
-	if( !(this.edges[v]) ) 
-		this.edges[v1] = [];
+Graph.prototype.addVertex = function(id, data) {
+	var vertex = new Vertex(id, data);
+	this.vertices[id] = vertex;
 }
 
-Graph.prototype.addVertex = function(v) {
-	if( !(this.edges[v]) ) 
-		this.edges[v1] = [];
+Graph.prototype.getVertex = function(id) {
+	return this.vertices[id];
 }
 
-Graph.prototype.addEdge = function(v1, v2) {
-	if( !(this.edges[v1]) ) 
-		this.edges[v1] = [];
-	this.edges[v1].push( new Edge(v1, v2));
+Graph.prototype.addEdge = function(sourceId, targetId, data) {
+	var edge = new Edge(sourceId, targetId, data);
+	if ( this.outgoingEdges[sourceId] == undefined )
+		this.outgoingEdges[sourceId] = [] 
+	this.outgoingEdges[sourceId].push(edge);
+}
+
+Graph.prototype.getOutgoingEdges = function(id) {
+	return this.outgoingEdges[id];
 }
 
 Graph.prototype.toString = function() {
 	var s = '';
-	for( var v in this.edges) {
-		s += v;
-		s += ' => [' + this.edges[v].map( function(e) {
-			return e.target.data;
+	for( var sourceId in this.outgoingEdges) {
+		s += sourceId;
+		s += ' => [' + this.outgoingEdges[sourceId].map( function(edge) {
+			return edge.targetId;
 		});
 		s += ']; ';
 	} 
 	return s;
 }
-
-Graph.prototype.dfs = function(v, result) {
-	var discovered = {} //hash
-	var result = [];
-	this.dfsRecursive(v, discovered, result);
-	return result;
-}
-
-Graph.prototype.dfsRecursive = function(v, discovered, result) {
-	var _this = this;
-	discovered[v] = true;
-
-	var vEdges = this.edges[v];
-	if( vEdges != undefined) {
-
-		vEdges.forEach( function(e) {
-			var vTarget = e.target;
-			if( !discovered[vTarget] ) {
-				_this.dfsRecursive(vTarget, discovered, result);
-			}
-		});
-	}
-	result.unshift(v) //reverse post order
-}
-
-Graph.prototype.bfs = function(v) {
-	var _this = this;
-	var discovered = {}; //hash
-	var queue = [];
-	queue.push(v);
-
-	while ( queue.length > 0) {
-		v = queue.shift(); 
-		if( !discovered[v]) {
-			console.log('visiting Vertex ' + v);
-			discovered[v] = true;
-			var vEdges = this.edges[v];
-			if( vEdges != undefined) {
-				vEdges.forEach( function(e) {
-					var vTarget = e.target;
-					queue.push(vTarget);
-				});
-			}
-		}
-	}
-}
-
-//==================================================
-
-var v1 = new Vertex('1');
-var v2 = new Vertex('2');
-var v3 = new Vertex('3');
-var v4 = new Vertex('4');
-var v5 = new Vertex('5');
-var v6 = new Vertex('6');
-var v6 = new Vertex('7');
- 
-var g = new Graph();
-g.addEdge(v1, v2);
-g.addEdge(v1, v3);
-g.addEdge(v2, v4);
-g.addEdge(v2, v5);
-g.addEdge(v3, v6);
-g.addEdge(v5, v3);
-g.addEdge(v3, v4);
-
-console.log('graph: ' + g.toString()); 
-var result = g.dfs(v1);
-console.log('topological sorted: '+ result.map( function(v) {
-	return v.data;
-}));
-
 
 
