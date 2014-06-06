@@ -88,4 +88,3 @@ console.log("");
 
 var node = tree.find(3);
 console.log('find=' + node);
-/
