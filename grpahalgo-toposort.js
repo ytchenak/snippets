@@ -13,6 +13,7 @@ GraphAlgo.prototype.topologicalSort = function(rootId) {
 	return result;
 }
 
+
 //make dfs recursive reverse post order traverse
 GraphAlgo.prototype.dfsRecursive = function(vertexId, result, discovered) {
 	var self = this;

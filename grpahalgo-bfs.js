@@ -10,8 +10,7 @@ function GraphAlgo(graph) {
 GraphAlgo.prototype.bfs = function(rootId, result, discovered) {
 	var self = this;
 
-
-	var discovered = {} //hash
+	var discovered = {} 
 	var result = [];
 	var stack = [];
 
