@@ -1,5 +1,5 @@
 'use strict';
-var gh = require('./graph')
+var gh = require('./graph');
 
 //-------------------------------------------------------------
 function GraphAlgo(graph) {
@@ -12,14 +12,14 @@ GraphAlgo.prototype.bfs = function(rootId, result, discovered) {
 
 	var discovered = {} 
 	var result = [];
-	var stack = [];
+	var queue = [];
 
 	// //initial discover root and make it as discovered
-	stack.push(rootId);
+	queue.push(rootId);
 	discovered[rootId] = 1
 
-	while( stack.length > 0 ) {
-		var vertexId = stack.shift();
+	while( queue.length > 0 ) {
+		var vertexId = queue.shift();
 		console.log('discovered ' + vertexId );
 
 		var edges = this.graph.getOutgoingEdges(vertexId);
@@ -29,10 +29,9 @@ GraphAlgo.prototype.bfs = function(rootId, result, discovered) {
 				// discover each target and marked it as discovered
 				if( discovered[edge.targetId] == undefined ) {
 					discovered[edge.targetId] = 1;
-					stack.push(edge.targetId);
+					queue.push(edge.targetId);
 				}
 			});
-			console.log(' stack: ' + stack);
 		}
 	}
 
@@ -48,10 +47,9 @@ g.addVertex(4);
  
 g.addEdge(1, 2);
 g.addEdge(1, 3);
+g.addEdge(2, 3);
 g.addEdge(2, 4);
 g.addEdge(3, 4);
-g.addEdge(3, 2);
-g.addEdge(4, 1);
 
 console.log('graph: ' + g.toString()); 
 
